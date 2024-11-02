@@ -166,6 +166,7 @@ const AdminUsers = ({refreshTrigger, searchTerm}) => {
             <th className="py-4 px-6">ID</th>
             <th className="py-4 px-6">Username</th>
             <th className="py-4 px-6">Email</th>
+            <th className="py-4 px-6">FullName</th>
             <th className="py-4 px-6">Phone</th>
             <th className="py-4 px-6">Actions</th>
             </tr>
@@ -178,6 +179,7 @@ const AdminUsers = ({refreshTrigger, searchTerm}) => {
             <td className="py-4 px-6">{key+1}</td>
             <td className="py-4 px-6">{user.username}</td>
             <td className="py-4 px-6">{user.email}</td>
+            <td className="py-4 px-6">{user.first_name} {user.last_name}</td>
             <td className="py-4 px-6">{user.phone_number}</td>
 
             {user.is_superuser?<td></td>:

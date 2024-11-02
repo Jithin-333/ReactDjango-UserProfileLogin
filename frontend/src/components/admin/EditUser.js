@@ -23,6 +23,18 @@ const validateField = (name, value) => {
       if (value && /[^0-9]/.test(value)) errors.push('Only numbers are allowed');
       break;
 
+    case 'first_name':
+      if (!value.trim()) errors.push('First name is required');
+      if (!/^[A-Za-z\s-']+$/.test(value)) errors.push('First name can only contain letters, spaces, hyphens, and apostrophes');
+      if (value.length < 2) errors.push('First name must be at least 2 characters long');
+      break;
+
+    case 'last_name':
+      if (!value.trim()) errors.push('Last name is required');
+      if (!/^[A-Za-z\s-']+$/.test(value)) errors.push('Last name can only contain letters, spaces, hyphens, and apostrophes');
+      if (value.length < 2) errors.push('Last name must be at least 2 characters long');
+      break;
+
     default:
       break;
   }
@@ -35,6 +47,8 @@ const EditUser = ({ user, onClose, onUpdate }) => {
     username: user.username,
     email: user.email,
     phone_number: user.phone_number,
+    first_name: user.first_name || '',
+    last_name: user.last_name || '',
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -56,7 +70,7 @@ const EditUser = ({ user, onClose, onUpdate }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // Prevent spaces in username field
+    // Prevent spaces in username field only
     const newValue = name === 'username' ? value.replace(/\s/g, '') : value;
     
     setFormData(prev => ({
@@ -137,6 +151,40 @@ const EditUser = ({ user, onClose, onUpdate }) => {
               </div>
             )}
             <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="first_name" className="block text-gray-700 font-bold mb-2">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleInputChange}
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                      formErrors.first_name ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                  />
+                  {renderError('first_name')}
+                </div>
+                <div>
+                  <label htmlFor="last_name" className="block text-gray-700 font-bold mb-2">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleInputChange}
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                      formErrors.last_name ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                  />
+                  {renderError('last_name')}
+                </div>
+              </div>
               <div className="mb-4">
                 <label htmlFor="username" className="block text-gray-700 font-bold mb-2">
                   Username
